@@ -1,3 +1,62 @@
-body{
-    
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #70CF51;
+    font-family: 'Press Start 2P', cursive;
+    color:black;
+    font-size:22px;
+    overflow:hidden;
+    margin:0px; padding:0px;
+    background-image: url(../images/space.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body * {
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+}
+
+splash {
+    font-size:2em;
+    cursor: pointer;
+    width:500px;
+    height:100px;
+    margin-top:calc(50vh - 50px);
+    margin-left:calc(50vw - 250px);
+    text-align:center;
+}
+
+enemy {
+    background-image: url(../images/ship.png);
+    width:28px; height:22px;
+
+}
+
+player {
+    background-image: url(../images/paddle.png);
+    width:60px; height:68px;
+}
+health {
+    background-color: red;
+    color:black;
+    width:300px; height:20px;
+    font-size: 1em;
+    text-align: center; 
+}
+bullet {
+    background-image: url(../images//bullet.png);
+    width: 20px; height: 20px;
+
+}
+score{
+    padding-top: 20px;
+}
+ul{
+    position:initial;
+    width: 200px;
 }
