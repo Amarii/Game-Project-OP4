@@ -264,7 +264,7 @@ class bullet extends GameObject {
 
 # Klassendiagram
 
-![umlgame-master](https://github.com/Amarii/Game-Project-OP4/blob/master/Untitled%20Diagram.png)
+![umlgame-master](https://github.com/Amarii/Game-Project-OP4/blob/master/klassediagram.png)
 
 
 # Peer reviews
