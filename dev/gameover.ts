@@ -31,6 +31,7 @@ class GameOver {
 
             this.highscore.innerHTML = (i + 1) + ": " + highscore[i];
         }
+        console.log(highscore)
 
     }
 
