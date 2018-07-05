@@ -1,138 +1,300 @@
-# CMTTHE04 Week5 oefening 1
 
-## Pong met Inheritance
+# CMTTHE01-4-Game
+Link voor een demo
+- https://amarii.github.io/Game-Project-OP4/
 
-In week 4 hebben we een pong game gebouwd met composition: **Game** heeft drie screens: **PlayScreen**, **GameOver** en **StartScreen**. PlayScreen heeft **Balls** en **Paddles**
+# Checklist
+- [x] De code van het individuele project staat op GitHub.
+- [x] De game is online speelbaar.
+- [x] De game bevat minimaal één van de onderstaande extra uitdagingen.
+- [x] De game heeft een startscherm en een eindscherm.
+- [x] Er zijn geen bugs.
+- [x] Het project maakt gebruik van deze OOP principes.
+    - [x] Classes
+    - [x] Encapsulation
+    - [x] Composition
+    - [x] Inheritance
+- [x] De GitHub pagina bevat een ReadMe bestand. Dit bestand bevat:
+    - [x] Per bovengenoemd OOP principe een uitleg: waar is het toegepast, en waarom is het
+        op die plek toegepast. De uitleg is inclusief code voorbeelden.
+    - [x] Een klassendiagram van de game.
+    - [x] Een link naar de peer review die in week 6 is gedaan
 
-Je kan verder gaan met je eigen code van week 4, of je kan dit project als startpunt gebruiken voor de oefening met Inheritance.
+### Extra opdrachten 
 
-### Inheritance voor Ball en Paddle
+- [ ] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
+- [x] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
+- [ ] De game werkt met Canvas in plaats van DOM elementen
+- [ ] De game bevat local of online multiplayer.
+- [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
+- [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
+- [ ] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
-Gebruik inheritance om de **overeenkomstige eigenschappen** van Ball en Paddle in een GameObject class te plaatsen. Ball en Paddle erven dan van GameObject.
-Let op het gebruik van **protected** en **super()**
 
-**GameObject**
+# Toelichting OOP principes
+## Classes
+In mijn game maak ik gebruik van Classes, Classes zijn onderdelen die samen deel uit maken van een groter geheel, classes zijn blauwdrukken van componenten, op deze manier hoef je code voor een 2e component niet nog een keer te schrijven
+
+Hier een voorbeeld van een kleine class die ik gemaakt heb voor mijn game:
 ```
-class GameObject {
+class cScore {
+    public div: HTMLElement
+    private game: Game
+    public score: number
     constructor() {
-        console.log("I am a gameobject")
+        this.div = document.createElement('score')
+
+        document.body.appendChild(this.div)
+
+
+    }
+    public update() {
+        this.score++
+        this.div.innerHTML = "Score: " + this.score
+        document.cookie = "score=" + this.score
+        if(this.score < 0){
+            this.score = 0
+
+        }
+    }
+    public showScore() {
+
     }
 }
 ```
 
-#### Eigenschappen verplaatsen
+## Encapsulation
 
-Je kan de eigenschappen `x`, `y`, en `div` verplaatsen naar het GameObject. 
+Encapsulation is om properties af te schermen of juist openbaar te maken, bij andere Classes,
+door een Public voor de properties te zetten kan iedereen van buiten die Class deze property ook bekijken en aanpassen
+Door middel van een protected kunnen alleen classes die overerven bij deze properties
+en als laatst is er Private op deze manier kan alleen de Class waar de property staat de property gebruiken.
+Hier een voorbeeld:
 
-#### Update functie verplaatsen
-
-Je kan het updaten van de positie ook verplaatsen naar GameObject. Bekijk of de `getRectangle()` functie hetzelfde is bij Ball en bij Paddle. Als dit zo is kan je die ook naar `GameObject` verplaatsen! Het GameObject kan er als volgt uit zien:
-
-**GameObject**
 ```
-class GameObject {
+class cPlayer extends GameObject {
 
-    protected x: number
-    protected y: number
-    protected div: HTMLElement
+    private div: HTMLElement
+    private game: Game
+    private bullet: bullet
+    private downkey: number
+    private upkey: number
+    private leftkey: number
+    private rightkey: number
 
-    constructor() {
-        console.log("I am a gameobject")
+    private downSpeed: number = 0
+    private upSpeed: number = 0
+    private leftSpeed: number = 0
+    private rightSpeed: number = 0
+    private aKey: number = 0
+    private dKey: number = 0
+    private sKey: number = 0
+    private wKey: number = 0
+
+  
+
+ 
+
+    constructor(xp: number) {
+        super()
+        this.div = document.createElement("player")
+        document.body.appendChild(this.div)
+
+        //   this.health = health
+        this.upkey = 87
+        this.downkey = 83
+        this.leftkey = 65
+        this.rightkey = 68
+        this.wKey = 38
+        this.sKey = 40
+        this.aKey = 37
+        this.dKey = 39
+
+        this.x = xp
+        this.y = 200
+
+        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
+        window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
 
-    public update(): void {
+    public getRectangle() {
+        return this.div.getBoundingClientRect()
+    }
+    public hitPuppy() {
+
+    }
+
+    private onKeyDown(e: KeyboardEvent): void {
+        switch (e.keyCode) {
+            case this.upkey:
+                this.upSpeed = 10
+                break
+            case this.downkey:
+                this.downSpeed = 10
+                break
+            case this.leftkey:
+                this.leftSpeed = 10
+                break
+            case this.rightkey:
+                this.rightSpeed = 10
+                break
+            case this.wKey:
+                this.upSpeed = 10
+                break
+            case this.sKey:
+                this.downSpeed = 10
+                break
+            case this.aKey:
+                this.leftSpeed = 10
+                break
+            case this.dKey:
+                this.rightSpeed = 10
+
+
+        }
+    }
+
+    private onKeyUp(e: KeyboardEvent): void {
+        switch (e.keyCode) {
+            case this.upkey:
+                this.upSpeed = 0
+                break
+            case this.downkey:
+                this.downSpeed = 0
+                break
+            case this.leftkey:
+                this.leftSpeed = 0
+                break
+            case this.rightkey:
+                this.rightSpeed = 0
+                break
+            case this.wKey:
+                this.upSpeed = 0
+                break
+            case this.sKey:
+                this.downSpeed = 0
+                break
+            case this.aKey:
+                this.leftSpeed = 0
+                break
+            case this.dKey:
+                this.rightSpeed = 0
+                break
+        }
+    }
+
+    public update() {
+        let newY = this.y - this.upSpeed + this.downSpeed
+        let newX = this.x - this.leftSpeed + this.rightSpeed
+        // als de paddle binnen beeld blijft, dan ook echt updaten
+        if (newY > -10 && newY + 100 < window.innerHeight) this.y = newY
+
+        this.div.style.transform = `translate(${this.x}px, ${this.y}px)`
+
+        if (newX > 0 && newX + 100 < window.innerWidth) this.x = newX
+
         this.div.style.transform = `translate(${this.x}px, ${this.y}px)`
     }
 
-    public getRectangle(){
+}
+```
+## Inheritance
+Inheritance is het overerven van methods en properties, hierdoor voorkom je dubbele code.
+als voorbeeld uit mijn game hebben zowel de bullets als de speler een x en y coordinaten en een update functie deze hoef je met inheritance niet appart in beide classes aan te maken
+
+Hieronder een voorbeeld : 
+```
+class GameObject {
+
+    public x: number;
+    public y: number;
+
+
+   // private div: HTMLElement;
+
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+
+
+
+    update() {
+
+    }
+}
+```
+```
+/// <reference path="gameobject.ts"/>
+
+class bullet extends GameObject {
+
+    public speed: number
+
+    protected div: HTMLElement
+    constructor(x: number, y: number, speed: number) {
+        super(x, y)
+        this.x = x
+        this.y = y
+        this.speed = speed
+        this.div = document.createElement("bullet")
+        document.body.appendChild(this.div)
+
+    }
+
+    draw() {
+
+        //console.log(123)
+    }
+    public kill() {
+        this.div.remove()
+
+    }
+
+
+    update() {
+        this.x = this.x + this.speed
+        this.div.style.transform = `translate(${this.x}px, ${this.y}px)`
+    }
+    public getRectangle() {
         return this.div.getBoundingClientRect()
     }
 }
 ```
 
-### Overerven van GameObject
+# Klassendiagram
 
-Ball en Paddle erven van GameObject en krijgen daardoor automatisch een x,y en div property. Ook krijgen ze automatisch de update functie en de getRectangle functie. De eigenschappen en functies die *niet* gedeeld worden door Ball en Paddle moeten wel in de eigen class blijven.
+![umlgame-master](https://github.com/Amarii/Game-Project-OP4/blob/master/Untitled%20Diagram.png)
 
-**Ball**
-```
-class Ball extends GameObject {
 
-    private speedX: number
-    private speedY: number
+# Peer reviews
+### PeerReview Joey Lim https://github.com/ZsZJ/CMTTHE01-4-Game
 
-    constructor() {
-        super()
-        console.log("I am a ball")
-    }
+- [x] De code van het individuele project staat op GitHub.
+- [x] De game is online speelbaar.
+- [x] De game bevat minimaal één van de onderstaande extra uitdagingen.
+- [x] De game heeft een startscherm en een eindscherm.
+- [x] Er zijn geen bugs.
+- [x] Het project maakt gebruik van deze OOP principes.
+    - [x] Classes
+    - [x] Encapsulation
+    - [x] Composition
+    - [x] Inheritance
+- [x] De GitHub pagina bevat een ReadMe bestand. Dit bestand bevat:
+    - [x] Per bovengenoemd OOP principe een uitleg: waar is het toegepast, en waarom is het
+        op die plek toegepast. De uitleg is inclusief code voorbeelden.
+    - [x] Een klassendiagram van de game.
+    - [x] Een link naar de peer review die in week 6 is gedaan
 
-    public update() : void {
-        this.x += this.speedX
-        this.y += this.speedY
-        
-        if( this.y + this.getRectangle().height > window.innerHeight || this.y < 0) { 
-            this.speedY *= -1
-        }
-                        
-        this.div.style.transform = `translate(${this.x}px, ${this.y}px)` 
-    }
-}
-```
-### De Update functie
+### Extra opdrachten 
 
-De Ball heeft zijn eigen `update` functie. Maar omdat de `style.transform` regel hetzelfde is als bij gameobject, kan je alsnog de functie van gameobject aanroepen:
+- [x] De game ziet er zeer verzorgd uit dankzij goed uitgewerkt UI design en artwork.
+- [ ] De game bevat een hiscore lijst. Scores worden bewaard nadat de game is afgesloten.
+- [ ] De game werkt met Canvas in plaats van DOM elementen
+- [ ] De game bevat local of online multiplayer.
+- [ ] De game werkt op mobiele schermen en ondersteunt touchscreen controls.
+- [ ] De game maakt gebruik van device api's zoals de camera, microfoon, gyroscoop of GPS.
+- [x] De game gebruikt een externe library uit de lijst in deze modulewijzer. 
 
-**Ball**
-```
-class Ball extends GameObject {
-
-    public update() : void {
-        this.x += this.speedX
-        this.y += this.speedY
-        
-        if( this.y + this.getRectangle().height > window.innerHeight || this.y < 0) { 
-            this.speedY *= -1
-        }
-                        
-        super.update()
-    }
-}
-```
-
-## Inheritance voor Screens
-
-Gebruik inheritance om de **overeenkomstige eigenschappen** van PlayScreen, GameOver en StartScreen in een Screen class te plaatsen. 
-
-**Screen**
-```
-class Screen {
-    public update(): void {
-        
-    }
-}
-```
-
-**StartScreen**
-```
-class StartScreen extends Screen {
-    constructor(){
-        super()
-    }
-}
-```
-
-### Het any type
-
-In de code van game.ts zie je dat `currentscreen` als type `any` heeft. Dit is omdat we niet weten of er een PlayScreen, GameOverScreen, of StartScreen in de `screen` variabele geplaatst wordt.
-
-Dit probleem kunnen we oplossen als alle drie de screens overerven van de class `Screen`. Het type van de `currentscreen` variabele wordt dan `Screen`.
-
-**Game.ts**
-```
-class Game {
-    currentscreen:Screen
-    constructor(){
-        this.screen = new PlayScreen()
-    }
-}
-```
+## Mijn feedback
+Marleen heeft echt als een gek aan deze game gewerkt, de game ziet er extreem goed verzorgd uit en de gameplay is ook best wel verslavend, de game was de eerste keren dat ik speelde nog vrij makkelijk, dit heeft hij ondertussen al weer aangepast waardoor het spel een echte uitdaging is.
